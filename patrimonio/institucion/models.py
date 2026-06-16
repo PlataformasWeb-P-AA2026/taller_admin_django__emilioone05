@@ -27,6 +27,7 @@ class Museo(models.Model):
         for guia in guias:
             if guia.anios_experiencia_guia == max_exp:
                 nombres.append(guia.nombre_completo_guia)
+                
         return ", ".join(nombres)
     
     
