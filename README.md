@@ -15,13 +15,10 @@ Este proyecto consiste en el desarrollo y configuración de un sistema de gesti�
 ## 🛠️ Requisitos e Instalación
 
 ### 1. Clonar el repositorio y preparar el entorno
-```bash
-# Navegar al directorio del proyecto
-cd patrimonio
-
-# Instalar las dependencias necesarias (incluyendo el adaptador para PostgreSQL)
-pip install django psycopg2-binary
-
+```markdown
+    # Instalar las dependencias...
+    pip install django psycopg2-binary
+```
 evidencias 
 ![AdMINSQLITE](image.png)
 ![ADMINPGADMIN](image-1.png)
