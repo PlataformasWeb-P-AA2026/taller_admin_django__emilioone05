@@ -6,14 +6,37 @@ class Museo(models.Model):
     ciudad = models.CharField(max_length=45)
     anio_fundacion = models.IntegerField()
     
-    def __str__(self): 
-        return f"Nombre: {self.nombre} | Ciudad: {self.ciudad} | AñoFundacion: {self.anio_fundacion} |"
+    def costo_total_produccion(self):
+        guias = self.museomain.all()
+        return sum(
+            exh.costo_produccion
+            for guia in guias
+            for exh in guia.guiaexh.all()
+        )
+        
+        
+    def experiencia_guia(self):
+        guias = list(self.museomain.all())
+        if not guias:
+            return "Sin guías"
+        max_exp = 0
+        for guia in guias:
+            if guia.anios_experiencia_guia > max_exp:
+                max_exp = guia.anios_experiencia_guia
+        nombres = []
+        for guia in guias:
+            if guia.anios_experiencia_guia == max_exp:
+                nombres.append(guia.nombre_completo_guia)
+        return ", ".join(nombres)
     
+    
+    def __str__(self): 
+        return f"Nombre: {self.nombre} "
     
 class GuiaMuseo(models.Model):
     nombre_completo_guia = models.CharField(max_length=60)
     anios_experiencia_guia = models.IntegerField()
-    idiomas_hablados = models.CharField(max_length=30)
+    idiomas_hablados = models.CharField(max_length=100)
     museo = models.ForeignKey(
         Museo,
         related_name='museomain',
@@ -25,7 +48,7 @@ class GuiaMuseo(models.Model):
 class Exibicion(models.Model):
     titulo_exhibicion = models.CharField(max_length=50)
     meses_duracion = models.IntegerField()
-    costo_produccion = models.FloatField()
+    costo_produccion = models.DecimalField(max_digits=10, decimal_places=2)
     tematica = models.CharField(max_length=50)
     guia = models.ForeignKey(
         GuiaMuseo,
